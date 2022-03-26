@@ -11,7 +11,7 @@
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.built.sourceEncoding>UTF-8</project.built.sourceEncoding>
     </properties>
 
     <dependencies>
@@ -30,10 +30,9 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.2</version>
                 <configuration>
-                    <failIfNoTests>true</failIfNoTests>
+                    <failIfNoTests>false</failIfNoTests>
                 </configuration>
             </plugin>
-
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -41,6 +40,7 @@
                 <executions>
                     <execution>
                         <id>prepare-agent</id>
+                        <phase>initialize</phase>
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
@@ -54,17 +54,23 @@
                     </execution>
                     <execution>
                         <id>check</id>
+                        <phase>verify</phase>
                         <goals>
                             <goal>check</goal>
                         </goals>
                         <configuration>
                             <rules>
                                 <rule>
+                                    <element>CLASS</element>
+                                    <excludes>
+                                        <exclude>ru.netology.domain.Player</exclude>
+                                        <exclude>*Test</exclude>
+                                    </excludes>
                                     <limits>
                                         <limit>
                                             <counter>BRANCH</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>1</minimum>
+                                            <minimum>100%</minimum>
                                         </limit>
                                     </limits>
                                 </rule>
